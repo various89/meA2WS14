@@ -27,14 +27,10 @@ NamedElement:
 
 PageElement:
 	RelationshipPageElement | AttributePageElement
-	label=EString
-	elementID=ID
 ;
 
 RelationshipPageElement :
 	List | Table
-	editingForm=[Form | QualifiedName]
-	relationship=[Relationship | QualifiedName]
 ;
 
 List returns List:
