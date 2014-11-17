@@ -18,7 +18,8 @@ Form returns Form:
 ;
 
 Page returns Page:
-	'page' title=EString '{' (pageElements+=PageElement)* '}'
+	('page' title=EString '{' (pageElements+=PageElement)* '}')?
+	(condition=Condition)?
 ;
 
 NamedElement:
@@ -27,10 +28,24 @@ NamedElement:
 
 PageElement:
 	RelationshipPageElement | AttributePageElement
+	(condition=Condition)?
 ;
 
 RelationshipPageElement :
 	List | Table
+;
+
+Condition:
+	AttributeValueCondition | CompositeCondition
+;
+
+AttributeValueCondition:
+	'attribute-condition' conditionID=ID':' attribute=[Attribute] '==' value=EString '?' type=ConditionType
+;
+
+CompositeCondition:
+	('with' 'composite-condition' ID':')
+		('(' composedConditions+=Condition compositionType=CompositeConditionType ')' '?' type=ConditionType)
 ;
 
 List returns List:
@@ -69,6 +84,14 @@ DateSelectionField returns DateSelectionField:
 
 TimeSelectionField returns TimeSelectionField:
 	'time-selection-field' elementID=ID label=EString 'handles' attribute=[Attribute | QualifiedName](',')?
+;
+
+enum ConditionType returns ConditionType:
+	Hide='0' | Show='1' | Enable='2' | Disable='3' | None='4'
+;
+
+enum CompositeConditionType returns CompositeConditionType:
+	And='0' | Or='1'
 ;
 
 EString returns ecore::EString:

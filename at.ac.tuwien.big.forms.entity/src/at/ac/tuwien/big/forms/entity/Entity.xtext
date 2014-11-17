@@ -48,8 +48,8 @@ Literal returns Literal:
 ;
 
 enum AttributeType returns AttributeType:
-	String = 'String' | Integer = 'Integer' | Text = 'Text' | Date = 'Date' | 
-	Time = 'Time' | Email = 'Email' | Boolean = 'Boolean' | Year = 'Year' | None = 'None'
+	String = '1' | Integer = '2' | Text = '3' | Date = '4' | 
+	Time = '5' | Email = '6' | Boolean = '7' | Year = '8' | None = '0'
 ;
 
 EString returns ecore::EString:
