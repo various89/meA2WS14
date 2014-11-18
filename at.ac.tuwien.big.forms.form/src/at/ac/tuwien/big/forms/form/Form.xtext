@@ -18,7 +18,7 @@ Form returns Form:
 ;
 
 Page returns Page:
-	('page' title=EString '{' (pageElements+=PageElement)* '}')?
+	'page' title=EString '{' (pageElements+=PageElement)* '}'
 	(condition=Condition)?
 ;
 
@@ -39,11 +39,11 @@ Condition:
 	AttributeValueCondition | CompositeCondition
 ;
 
-AttributeValueCondition:
+AttributeValueCondition returns AttributeValueCondition:
 	'attribute-condition' conditionID=ID':' attribute=[Attribute] '==' value=EString '?' type=ConditionType
 ;
 
-CompositeCondition:
+CompositeCondition returns CompositeCondition:
 	('with' 'composite-condition' ID':')
 		('(' composedConditions+=Condition compositionType=CompositeConditionType ')' '?' type=ConditionType)
 ;
@@ -87,11 +87,11 @@ TimeSelectionField returns TimeSelectionField:
 ;
 
 enum ConditionType returns ConditionType:
-	Hide='0' | Show='1' | Enable='2' | Disable='3' | None='4'
+	Hide='Hide' | Show='Show' | Enable='Enable' | Disable='Disable' | None='None'
 ;
 
 enum CompositeConditionType returns CompositeConditionType:
-	And='0' | Or='1'
+	And='And' | Or='Or'
 ;
 
 EString returns ecore::EString:
