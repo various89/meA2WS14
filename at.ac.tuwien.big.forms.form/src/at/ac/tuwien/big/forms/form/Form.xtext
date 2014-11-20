@@ -42,16 +42,13 @@ Condition:
 AttributeValueCondition returns AttributeValueCondition:
 	'with'? 'attribute-condition' conditionID=ID':' attribute=[Attribute | QualifiedName] '==' value=EString '?' (type=ConditionType)
 ;
-//with attribute-condition ShowIfJA: publicationType == "Journal Article" ? Show 
+
 CompositeCondition returns CompositeCondition:
 	('with' 'composite-condition' conditionID=ID':')
 		('(' composedConditions+=Condition compositionType=CompositeConditionType composedConditions+=Condition ')'? '?' type=ConditionType)
 ;
-// with composite-condition ProceedingsCondition: 
-//			(attribute-condition ShowIfCP: PublicationType == "Conference Paper" ? Show Or
-//			 attribute-condition ShowIfWP: PublicationType == "Workshop Paper" ? Show) ? Show
 List returns List:
-	'list' elementID=ID label=EString 'handles' relationship=[Relationship | QualifiedName] 'edits' editingForm=[Form | QualifiedName]
+	'list' elementID=ID label=EString 'handles' relationship=[Relationship | QualifiedName] 'edits' editingForm=[Form | QualifiedName] ','?
 ;
 
 Table returns Table:
