@@ -40,14 +40,16 @@ Condition:
 ;
 
 AttributeValueCondition returns AttributeValueCondition:
-	'attribute-condition' conditionID=ID':' attribute=[Attribute] '==' value=EString '?' type=ConditionType
+	'with'? 'attribute-condition' conditionID=ID':' attribute=[Attribute | QualifiedName] '==' value=EString '?' (type=ConditionType)
 ;
-
+//with attribute-condition ShowIfJA: publicationType == "Journal Article" ? Show 
 CompositeCondition returns CompositeCondition:
-	('with' 'composite-condition' ID':')
-		('(' composedConditions+=Condition compositionType=CompositeConditionType ')' '?' type=ConditionType)
+	('with' 'composite-condition' conditionID=ID':')
+		('(' composedConditions+=Condition compositionType=CompositeConditionType composedConditions+=Condition ')'? '?' type=ConditionType)
 ;
-
+// with composite-condition ProceedingsCondition: 
+//			(attribute-condition ShowIfCP: PublicationType == "Conference Paper" ? Show Or
+//			 attribute-condition ShowIfWP: PublicationType == "Workshop Paper" ? Show) ? Show
 List returns List:
 	'list' elementID=ID label=EString 'handles' relationship=[Relationship | QualifiedName] 'edits' editingForm=[Form | QualifiedName]
 ;
@@ -91,7 +93,7 @@ enum ConditionType returns ConditionType:
 ;
 
 enum CompositeConditionType returns CompositeConditionType:
-	And='And' | Or='Or'
+	And='and' | Or='or'
 ;
 
 EString returns ecore::EString:
