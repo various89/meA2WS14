@@ -123,7 +123,6 @@ at.ac.tuwien.big.forms.form/src/at/ac/tuwien/big/forms/form/FormStandaloneSetup.
 at.ac.tuwien.big.forms.form/src/at/ac/tuwien/big/forms/form/GenerateForm.mwe2
 at.ac.tuwien.big.forms.form/src/at/ac/tuwien/big/forms/form/formatting/FormFormatter.java
 at.ac.tuwien.big.forms.form/src/at/ac/tuwien/big/forms/form/generator/FormGenerator.xtend
-at.ac.tuwien.big.forms.form/src/at/ac/tuwien/big/forms/form/scoping/FormScopeProvider.java
 at.ac.tuwien.big.forms.form/src/at/ac/tuwien/big/forms/form/serializer/FormSemanticSequencer.java
 at.ac.tuwien.big.forms.form/src/at/ac/tuwien/big/forms/form/serializer/FormSyntacticSequencer.java
 at.ac.tuwien.big.forms.form/src/at/ac/tuwien/big/forms/form/validation/FormValidator.xtend
