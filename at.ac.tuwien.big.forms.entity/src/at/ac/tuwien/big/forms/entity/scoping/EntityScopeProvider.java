@@ -49,12 +49,17 @@ public class EntityScopeProvider extends org.eclipse.xtext.scoping.impl.Abstract
 		}
 		
 		//Get all attributes of entitys supertype
-		for (Feature f : entity_.getSuperType().getFeatures()) {
-			if (f instanceof Attribute) {
-				allMemberAttributes.add((Attribute)f);
+		if (entity_.getSuperType() != null) {
+			for (Feature f : entity_.getSuperType().getFeatures()) {
+				if (f instanceof Attribute) {
+					System.out.println(f);
+					allMemberAttributes.add((Attribute)f);
+				}
 			}
 		}
+		
 		return allMemberAttributes;
+
 	}
 
 
