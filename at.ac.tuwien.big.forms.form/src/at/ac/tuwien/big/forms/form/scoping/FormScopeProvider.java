@@ -86,7 +86,7 @@ public class FormScopeProvider extends org.eclipse.xtext.scoping.impl.AbstractDe
 	private Collection<Relationship> getAllMemberRelationships(Entity entity, Collection<Relationship> relationships) {
 		for (Feature f : entity.getFeatures()) {
 			if (f instanceof Relationship) {
-				relationships.add((Relationship)f);
+				relationships.add((Relationship) f);
 			}
 		}
 		
@@ -106,9 +106,16 @@ public class FormScopeProvider extends org.eclipse.xtext.scoping.impl.AbstractDe
 	 */
 	public IScope scope_AttributeValueCondition_attribute(AttributeValueCondition attributeValueCondition, EReference eReference) {
 		Page page = (Page) attributeValueCondition.eContainer();
+		System.out.println(page.getTitle());
 		Form form = (Form) page.eContainer();
+		System.out.println(form.getName());
 		Entity entity = form.getEntity();
+		System.out.println(entity.getName());
 		if (eReference.equals(FormsPackage.Literals.ATTRIBUTE_VALUE_CONDITION__ATTRIBUTE)) {
+			Collection<Attribute> attrs = getAllMemberAttributes(entity, new HashSet<Attribute>());
+			for (Attribute a : attrs) {
+				System.out.println(a.getName());
+			}
 			return Scopes.scopeFor(getAllMemberAttributes(entity, new HashSet<Attribute>()));
 		}
 		return IScope.NULLSCOPE;
@@ -122,7 +129,7 @@ public class FormScopeProvider extends org.eclipse.xtext.scoping.impl.AbstractDe
 	 * is only allowed to reference the attributes external and faculty of the entity 
 	 * Person.  
 	 */
-	public IScope scope_SelectionField_attribute(SelectionField selectionField, EReference eReference) {
+	public IScope scope_AttributePageElement_attribute(SelectionField selectionField, EReference eReference) {
 		Page page = (Page) selectionField.eContainer();
 		Form form = (Form) page.eContainer();
 		Entity entity = (Entity) form.getEntity();
