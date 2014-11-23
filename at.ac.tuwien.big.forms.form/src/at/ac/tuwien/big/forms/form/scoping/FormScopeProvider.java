@@ -37,7 +37,7 @@ public class FormScopeProvider extends org.eclipse.xtext.scoping.impl.AbstractDe
 	
 	/**
 	 * 1)
-	 * An attribute page element has to reference an attribute of the entity 
+	 * An attribute page element has to reference an attribute of the entity, 
 	 * the containing form references. 
 	 * Example: The text-field PublicationTitleField is only allowed to handle 
 	 * the attributes of the entity Publication (title, keywords, …, fields). 
@@ -47,43 +47,23 @@ public class FormScopeProvider extends org.eclipse.xtext.scoping.impl.AbstractDe
 		Form form = (Form) page.eContainer();
 		Entity entity = form.getEntity();
 		if (eReference.equals(FormsPackage.Literals.ATTRIBUTE_PAGE_ELEMENT__ATTRIBUTE)) {
-			return Scopes.scopeFor(getAllMemberAttributes(entity));
+			return Scopes.scopeFor(getAllMemberAttributes(entity, new HashSet<Attribute>()));
 		}
 		return IScope.NULLSCOPE;
 	}
 	
-	public IScope scope_AttributePageElement_attribute(Page page, EReference eReference) {
-		Form form = (Form) page.eContainer();
-		Entity entity = form.getEntity();
-		if (eReference.equals(FormsPackage.Literals.ATTRIBUTE_PAGE_ELEMENT__ATTRIBUTE)) {
-			return Scopes.scopeFor(getAllMemberAttributes(entity));
-		}
-		return IScope.NULLSCOPE;
-	}
-	
-	public IScope scope_AttributePageElement_attribute(Form form, EReference eReference) {
-		Entity entity = form.getEntity();
-		if (eReference.equals(FormsPackage.Literals.ATTRIBUTE_PAGE_ELEMENT__ATTRIBUTE)) {
-			return Scopes.scopeFor(getAllMemberAttributes(entity));
-		}
-		return IScope.NULLSCOPE;
-	}
-	
-	private Collection<Attribute> getAllMemberAttributes(Entity entity_) {
-		Collection<Attribute> allMemberAttributes = new HashSet<Attribute>();
-		
-		for (Feature f : entity_.getFeatures()) {
+	private Collection<Attribute> getAllMemberAttributes(Entity entity, Collection<Attribute> attributes) {
+		for (Feature f : entity.getFeatures()) {
 			if (f instanceof Attribute) {
-				allMemberAttributes.add((Attribute)f);
+				attributes.add((Attribute) f);
 			}
 		}
 		
-		for (Feature f : entity_.getSuperType().getFeatures()) {
-			if (f instanceof Attribute) {
-				allMemberAttributes.add((Attribute)f);
-			}
+		if (entity.getSuperType() != null) {
+			getAllMemberAttributes(entity.getSuperType(), attributes);
 		}
-		return allMemberAttributes;
+		
+		return attributes;
 	}
 	
 	/**
@@ -98,43 +78,23 @@ public class FormScopeProvider extends org.eclipse.xtext.scoping.impl.AbstractDe
 		Form form = (Form) page.eContainer();
 		Entity entity = form.getEntity();
 		if (eReference.equals(FormsPackage.Literals.RELATIONSHIP_PAGE_ELEMENT__RELATIONSHIP)) {
-			return Scopes.scopeFor(getAllMemberRelationships(entity));
+			return Scopes.scopeFor(getAllMemberRelationships(entity, new HashSet<Relationship>()));
 		}
 		return IScope.NULLSCOPE;
 	}
 	
-	public IScope scope_RelationshipPageElement_relationship(Page page, EReference eReference) {
-		Form form = (Form) page.eContainer();
-		Entity entity = form.getEntity();
-		if (eReference.equals(FormsPackage.Literals.RELATIONSHIP_PAGE_ELEMENT__RELATIONSHIP)) {
-			return Scopes.scopeFor(getAllMemberRelationships(entity));
-		}
-		return IScope.NULLSCOPE;
-	}
-	
-	public IScope scope_RelationshipPageElement_relationship(Form form, EReference eReference) {
-		Entity entity = form.getEntity();
-		if (eReference.equals(FormsPackage.Literals.RELATIONSHIP_PAGE_ELEMENT__RELATIONSHIP)) {
-			return Scopes.scopeFor(getAllMemberRelationships(entity));
-		}
-		return IScope.NULLSCOPE;
-	}
-	
-	private Collection<Relationship> getAllMemberRelationships(Entity entity_) {
-		Collection<Relationship> allMemberRelationships = new HashSet<Relationship>();
-		
-		for (Feature f : entity_.getFeatures()) {
+	private Collection<Relationship> getAllMemberRelationships(Entity entity, Collection<Relationship> relationships) {
+		for (Feature f : entity.getFeatures()) {
 			if (f instanceof Relationship) {
-				allMemberRelationships.add((Relationship)f);
+				relationships.add((Relationship)f);
 			}
 		}
 		
-		for (Feature f : entity_.getSuperType().getFeatures()) {
-			if (f instanceof Relationship) {
-				allMemberRelationships.add((Relationship)f);
-			}
+		if (entity.getSuperType() != null) {
+			getAllMemberRelationships(entity.getSuperType(), relationships);
 		}
-		return allMemberRelationships;
+		
+		return relationships;
 	}
 	
 	/**
@@ -149,24 +109,7 @@ public class FormScopeProvider extends org.eclipse.xtext.scoping.impl.AbstractDe
 		Form form = (Form) page.eContainer();
 		Entity entity = form.getEntity();
 		if (eReference.equals(FormsPackage.Literals.ATTRIBUTE_VALUE_CONDITION__ATTRIBUTE)) {
-			return Scopes.scopeFor(getAllMemberAttributes(entity));
-		}
-		return IScope.NULLSCOPE;
-	}
-	
-	public IScope scope_AttributeValueCondition_attribute(Page page, EReference eReference) {
-		Form form = (Form) page.eContainer();
-		Entity entity = form.getEntity();
-		if (eReference.equals(FormsPackage.Literals.ATTRIBUTE_VALUE_CONDITION__ATTRIBUTE)) {
-			return Scopes.scopeFor(getAllMemberAttributes(entity));
-		}
-		return IScope.NULLSCOPE;
-	}
-	
-	public IScope scope_AttributeValueCondition_attribute(Form form, EReference eReference) {
-		Entity entity = form.getEntity();
-		if (eReference.equals(FormsPackage.Literals.ATTRIBUTE_VALUE_CONDITION__ATTRIBUTE)) {
-			return Scopes.scopeFor(getAllMemberAttributes(entity));
+			return Scopes.scopeFor(getAllMemberAttributes(entity, new HashSet<Attribute>()));
 		}
 		return IScope.NULLSCOPE;
 	}
@@ -184,40 +127,26 @@ public class FormScopeProvider extends org.eclipse.xtext.scoping.impl.AbstractDe
 		Form form = (Form) page.eContainer();
 		Entity entity = (Entity) form.getEntity();
 		if (eReference.equals(FormsPackage.Literals.ATTRIBUTE_PAGE_ELEMENT__ATTRIBUTE)) {
-			return Scopes.scopeFor(getAllAttributesWithTypeBooleanOrEnum(entity));
+			return Scopes.scopeFor(getAllMemberAttributesWithTypeBooleanOrEnum(entity, new HashSet<Attribute>()));
 		}
 		return IScope.NULLSCOPE;
 	}
 	
-	public IScope scope_SelectionField_attribute(Page page, EReference eReference) {
-		Form form = (Form) page.eContainer();
-		Entity entity = (Entity) form.getEntity();
-		if (eReference.equals(FormsPackage.Literals.ATTRIBUTE_PAGE_ELEMENT__ATTRIBUTE)) {
-			return Scopes.scopeFor(getAllAttributesWithTypeBooleanOrEnum(entity));
-		}
-		return IScope.NULLSCOPE;
-	}
-	
-	public IScope scope_SelectionField_attribute(Form form, EReference eReference) {
-		Entity entity = (Entity) form.getEntity();
-		if (eReference.equals(FormsPackage.Literals.ATTRIBUTE_PAGE_ELEMENT__ATTRIBUTE)) {
-			return Scopes.scopeFor(getAllAttributesWithTypeBooleanOrEnum(entity));
-		}
-		return IScope.NULLSCOPE;
-	}
-	
-	private Collection<Attribute> getAllAttributesWithTypeBooleanOrEnum(Entity entity) {
-		Collection<Attribute> attributesWithTypeBooleanOrEnum = new HashSet<Attribute>();
-		
+	private Collection<Attribute> getAllMemberAttributesWithTypeBooleanOrEnum(Entity entity, Collection<Attribute> attributes) {
 		for (Feature f : entity.getFeatures()) {
 			if (f instanceof Attribute) {
 				if (((Attribute) f).getType() == AttributeType.BOOLEAN ||
 						((Attribute) f).getEnumeration() != null) {
-					attributesWithTypeBooleanOrEnum.add((Attribute) f);
+					attributes.add((Attribute) f);
 				}
 			}
 		}
-		return attributesWithTypeBooleanOrEnum;
+		
+		if (entity.getSuperType() != null) {
+			getAllMemberAttributesWithTypeBooleanOrEnum(entity.getSuperType(), attributes);
+		}
+		
+		return attributes;
 	}
 	
 	/**
@@ -237,23 +166,6 @@ public class FormScopeProvider extends org.eclipse.xtext.scoping.impl.AbstractDe
 		return IScope.NULLSCOPE;
 	}
 	
-	public IScope scope_RelationshipPageElement_editingForm(Page page, EReference eReference) {
-		Form form = (Form) page.eContainer();
-		FormModel formModel = (FormModel) form.eContainer();
-		if (eReference.equals(FormsPackage.Literals.RELATIONSHIP_PAGE_ELEMENT__EDITING_FORM)) {
-			return Scopes.scopeFor(formModel.getForms());
-		}
-		return IScope.NULLSCOPE;
-	}
-	
-	public IScope scope_RelationshipPageElement_editingForm(Form form, EReference eReference) {
-		FormModel formModel = (FormModel) form.eContainer();
-		if (eReference.equals(FormsPackage.Literals.RELATIONSHIP_PAGE_ELEMENT__EDITING_FORM)) {
-			return Scopes.scopeFor(formModel.getForms());
-		}
-		return IScope.NULLSCOPE;
-	}
-	
 	/**
 	 * 6)
 	 * A column of a table can only reference attributes of the entity of the form the table 
@@ -262,29 +174,12 @@ public class FormScopeProvider extends org.eclipse.xtext.scoping.impl.AbstractDe
 	 * entity Person (email, external, …, lastname), because the table AuthorTable 
 	 * defines the PersonForm as editing form, which references the entity Person.   
 	 */
-	public IScope scope_Column_attribute(Column column, EReference eReference) {
+	public IScope scope_AttributePageElement_attribute(Column column, EReference eReference) {
 		Table table = (Table) column.eContainer();
 		Form editingForm = table.getEditingForm();
 		Entity entity = editingForm.getEntity();
 		if (eReference.equals(FormsPackage.Literals.ATTRIBUTE_PAGE_ELEMENT__ATTRIBUTE)) {
-			return Scopes.scopeFor(getAllMemberAttributes(entity));
-		}
-		return IScope.NULLSCOPE;
-	}
-	
-	public IScope scope_Column_attribute(Table table, EReference eReference) {
-		Form editingForm = table.getEditingForm();
-		Entity entity = editingForm.getEntity();
-		if (eReference.equals(FormsPackage.Literals.ATTRIBUTE_PAGE_ELEMENT__ATTRIBUTE)) {
-			return Scopes.scopeFor(getAllMemberAttributes(entity));
-		}
-		return IScope.NULLSCOPE;
-	}
-	
-	public IScope scope_Column_attribute(Form editingForm, EReference eReference) {
-		Entity entity = editingForm.getEntity();
-		if (eReference.equals(FormsPackage.Literals.ATTRIBUTE_PAGE_ELEMENT__ATTRIBUTE)) {
-			return Scopes.scopeFor(getAllMemberAttributes(entity));
+			return Scopes.scopeFor(getAllMemberAttributes(entity, new HashSet<Attribute>()));
 		}
 		return IScope.NULLSCOPE;
 	}

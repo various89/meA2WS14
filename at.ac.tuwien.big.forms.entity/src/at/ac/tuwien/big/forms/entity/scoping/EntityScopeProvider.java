@@ -31,35 +31,27 @@ public class EntityScopeProvider extends org.eclipse.xtext.scoping.impl.Abstract
 	 * @param eReference
 	 * @return
 	 */
-	public IScope scope_Entity_id(Entity entity_, EReference eReference) {
+	public IScope scope_Entity_id(Entity entity, EReference eReference) {
 		if (eReference.equals(FormsPackage.Literals.ENTITY__ID)) {
-			return Scopes.scopeFor(getAllMemberAttributes(entity_));
+			return Scopes.scopeFor(getAllMemberAttributes(entity, new HashSet<Attribute>()));
 		}
 		return IScope.NULLSCOPE;
 	}
 
-	private Collection<Attribute> getAllMemberAttributes(Entity entity_) {
-		Collection<Attribute> allMemberAttributes = new HashSet<Attribute>();
-		
-		//Get all attributes of entity
-		for (Feature f : entity_.getFeatures()) {
+	private Collection<Attribute> getAllMemberAttributes(Entity entity, Collection<Attribute> attributes) {		
+		// Get all attributes of entity
+		for (Feature f : entity.getFeatures()) {
 			if (f instanceof Attribute) {
-				allMemberAttributes.add((Attribute)f);
+				attributes.add((Attribute) f);
 			}
 		}
 		
-		//Get all attributes of entitys supertype
-		if (entity_.getSuperType() != null) {
-			for (Feature f : entity_.getSuperType().getFeatures()) {
-				if (f instanceof Attribute) {
-					System.out.println(f);
-					allMemberAttributes.add((Attribute)f);
-				}
-			}
+		// if entity has supertype, get all attributes again
+		if (entity.getSuperType() != null) {
+			getAllMemberAttributes(entity.getSuperType(), attributes);
 		}
 		
-		return allMemberAttributes;
-
+		return attributes;
 	}
 
 
