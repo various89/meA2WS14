@@ -15,6 +15,7 @@ import at.ac.tuwien.big.forms.AttributePageElement;
 import at.ac.tuwien.big.forms.AttributeType;
 import at.ac.tuwien.big.forms.AttributeValueCondition;
 import at.ac.tuwien.big.forms.Column;
+import at.ac.tuwien.big.forms.Condition;
 import at.ac.tuwien.big.forms.Entity;
 import at.ac.tuwien.big.forms.Feature;
 import at.ac.tuwien.big.forms.Form;
@@ -104,8 +105,8 @@ public class FormScopeProvider extends org.eclipse.xtext.scoping.impl.AbstractDe
 	 * Example: The condition ShowIfJA in page "Journal" can only reference 
 	 * attributes of the entity Publication (title, keywords, …, fields).  
 	 */
-	public IScope scope_AttributeValueCondition_attribute(AttributeValueCondition attributeValueCondition, EReference eReference) {
-		Page page = (Page) attributeValueCondition.eContainer();
+	public IScope scope_AttributeValueCondition_attribute(Condition condition, EReference eReference) {
+		Page page = (Page) condition.eContainer();
 		System.out.println(page.getTitle());
 		Form form = (Form) page.eContainer();
 		System.out.println(form.getName());
