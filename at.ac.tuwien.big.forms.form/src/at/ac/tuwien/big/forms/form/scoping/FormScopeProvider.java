@@ -22,6 +22,7 @@ import at.ac.tuwien.big.forms.Form;
 import at.ac.tuwien.big.forms.FormModel;
 import at.ac.tuwien.big.forms.FormsPackage;
 import at.ac.tuwien.big.forms.Page;
+import at.ac.tuwien.big.forms.PageElement;
 import at.ac.tuwien.big.forms.Relationship;
 import at.ac.tuwien.big.forms.RelationshipPageElement;
 import at.ac.tuwien.big.forms.SelectionField;
@@ -106,17 +107,16 @@ public class FormScopeProvider extends org.eclipse.xtext.scoping.impl.AbstractDe
 	 * attributes of the entity Publication (title, keywords, …, fields).  
 	 */
 	public IScope scope_AttributeValueCondition_attribute(Condition condition, EReference eReference) {
-		Page page = (Page) condition.eContainer();
-		System.out.println(page.getTitle());
+		Object container = condition.eContainer();
+		Page page;
+		if (container instanceof PageElement) {
+			page = (Page) ((PageElement) container).eContainer();
+		} else {
+			page = (Page) container;
+		}
 		Form form = (Form) page.eContainer();
-		System.out.println(form.getName());
 		Entity entity = form.getEntity();
-		System.out.println(entity.getName());
 		if (eReference.equals(FormsPackage.Literals.ATTRIBUTE_VALUE_CONDITION__ATTRIBUTE)) {
-			Collection<Attribute> attrs = getAllMemberAttributes(entity, new HashSet<Attribute>());
-			for (Attribute a : attrs) {
-				System.out.println(a.getName());
-			}
 			return Scopes.scopeFor(getAllMemberAttributes(entity, new HashSet<Attribute>()));
 		}
 		return IScope.NULLSCOPE;
