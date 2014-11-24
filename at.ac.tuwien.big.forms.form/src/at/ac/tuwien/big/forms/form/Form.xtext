@@ -54,7 +54,7 @@ List returns List:
 Table returns Table:
 	'table' elementID=ID label=EString 'handles' relationship=[Relationship | QualifiedName] '{'
 		(columns+=Column)*
-	'}' 'edits' editingForm=[Form | QualifiedName]
+	'}' 'edits' editingForm=[Form | QualifiedName] ','?
 ;
 
 Column returns Column:
