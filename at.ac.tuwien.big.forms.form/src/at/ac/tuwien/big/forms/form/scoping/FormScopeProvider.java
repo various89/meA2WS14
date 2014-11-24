@@ -59,12 +59,10 @@ public class FormScopeProvider extends org.eclipse.xtext.scoping.impl.AbstractDe
 			if (f instanceof Attribute) {
 				attributes.add((Attribute) f);
 			}
-		}
-		
+		}		
 		if (entity.getSuperType() != null) {
 			getAllMemberAttributes(entity.getSuperType(), attributes);
-		}
-		
+		}		
 		return attributes;
 	}
 	
@@ -75,8 +73,8 @@ public class FormScopeProvider extends org.eclipse.xtext.scoping.impl.AbstractDe
 	 * Example: The table AuthorTable in page "Authors" is only allowed to handle 
 	 * relationships of the entity Publication (authors, proceedings, journal, book). 
 	 */
-	public IScope scope_RelationshipPageElement_relationship(RelationshipPageElement relationshipPageElement, EReference eReference) {
-		Page page = (Page) relationshipPageElement.eContainer();
+	public IScope scope_RelationshipPageElement_relationship(PageElement pageElement, EReference eReference) {
+		Page page = (Page) pageElement.eContainer();
 		Form form = (Form) page.eContainer();
 		Entity entity = form.getEntity();
 		if (eReference.equals(FormsPackage.Literals.RELATIONSHIP_PAGE_ELEMENT__RELATIONSHIP)) {
@@ -90,12 +88,10 @@ public class FormScopeProvider extends org.eclipse.xtext.scoping.impl.AbstractDe
 			if (f instanceof Relationship) {
 				relationships.add((Relationship) f);
 			}
-		}
-		
+		}		
 		if (entity.getSuperType() != null) {
 			getAllMemberRelationships(entity.getSuperType(), relationships);
-		}
-		
+		}		
 		return relationships;
 	}
 	
@@ -148,12 +144,10 @@ public class FormScopeProvider extends org.eclipse.xtext.scoping.impl.AbstractDe
 					attributes.add((Attribute) f);
 				}
 			}
-		}
-		
+		}		
 		if (entity.getSuperType() != null) {
 			getAllMemberAttributesWithTypeBooleanOrEnum(entity.getSuperType(), attributes);
-		}
-		
+		}		
 		return attributes;
 	}
 	
@@ -164,8 +158,8 @@ public class FormScopeProvider extends org.eclipse.xtext.scoping.impl.AbstractDe
 	 * Example: The table AuthorTable can only reference the editing forms PublicationForm, 
 	 * PersonForm, ProceedingsForm, JournalForm, BookForm, or EventForm.  
 	 */
-	public IScope scope_RelationshipPageElement_editingForm(RelationshipPageElement relationshipPageElement, EReference eReference) {
-		Page page = (Page) relationshipPageElement.eContainer();
+	public IScope scope_RelationshipPageElement_editingForm(PageElement pageElement, EReference eReference) {
+		Page page = (Page) pageElement.eContainer();
 		Form form = (Form) page.eContainer();
 		FormModel formModel = (FormModel) form.eContainer();
 		if (eReference.equals(FormsPackage.Literals.RELATIONSHIP_PAGE_ELEMENT__EDITING_FORM)) {
